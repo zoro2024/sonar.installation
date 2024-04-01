@@ -1,5 +1,3 @@
-
-
 ---
 #its contains error handling command of postgreysql because while creating this role after adding every task i was
 #checking wheather that task was performed but after completing the role when i ran this role i was 
@@ -32,8 +30,25 @@
   shell: su - postgres -c "psql -c \"ALTER DATABASE {{ sonar_pgsql_database }} OWNER TO {{ sonar_pgsql_username }};\""
   when: sonar_db_exists.rc != 0
 
+#######################Actual data that will be inside CreateDatabaseUser.yml#######################################
 
-#leave this
+---
+- name: Create Sonar user if it doesn't exist
+  shell: su - postgres -c "psql -c \"CREATE USER {{ sonar_pgsql_username }} SUPERUSER;\""
+ 
+- name: Set password for Sonar user
+  shell: su - postgres -c "psql -c \"ALTER USER {{ sonar_pgsql_username }} WITH PASSWORD '{{ sonar_pgsql_password }}';\""
+
+- name: Create Sonar database if it doesn't exist
+  shell: su - postgres -c "psql -c \"CREATE DATABASE {{ sonar_pgsql_database }} OWNER {{ sonar_pgsql_username }};\""
+
+- name: Change owner of Sonar database if user exists and database exists
+  shell: su - postgres -c "psql -c \"ALTER DATABASE {{ sonar_pgsql_database }} OWNER TO {{ sonar_pgsql_username }};\""
+
+
+
+
+#leave this######################################
 
 - name: Create PostgreSQL user
   postgresql_user:
