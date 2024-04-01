@@ -1,8 +1,8 @@
 ---
 #its contains error handling command of postgreysql because while creating this role after adding every task i was
 #checking wheather that task was performed but after completing the role when i ran this role i was 
-#facing issue due to (when conditions) so added only needed part from this inside CreateDatabaseUser.yml
-
+#facing issue due to (when conditions). so remove when and that yml is also mentioned below but that also
+#works for 1st time
 
 - name: Check if Sonar user exists(error handling)
   shell: su - postgres -c "psql -tAc \"SELECT 1 FROM pg_roles WHERE rolname='{{ sonar_pgsql_username }}'\""
@@ -30,7 +30,8 @@
   shell: su - postgres -c "psql -c \"ALTER DATABASE {{ sonar_pgsql_database }} OWNER TO {{ sonar_pgsql_username }};\""
   when: sonar_db_exists.rc != 0
 
-#######################Actual data that will be inside CreateDatabaseUser.yml#######################################
+#Actual data that we can put inside CreateDatabaseUser.yml but this will only work 1st time if we run
+#role more than once it will throw error because postgrsql user and database already exist(got created 1st time)
 
 ---
 - name: Create Sonar user if it doesn't exist
@@ -46,15 +47,3 @@
   shell: su - postgres -c "psql -c \"ALTER DATABASE {{ sonar_pgsql_database }} OWNER TO {{ sonar_pgsql_username }};\""
 
 
-
-
-#leave this######################################
-
-- name: Create PostgreSQL user
-  postgresql_user:
-    db: your_database_name
-    name: "{{ sonar_pgsql_username }}"
-    password: "{{ sonar_pgsql_password }}"
-    priv: SUPERUSER
-  become: yes
-  become_user: postgres
