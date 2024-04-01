@@ -1,2 +1,2 @@
 #ex
-sonar ansible_user=ubuntu ansible_host=13.201.19.42 ansible_ssh_private_key_file=/home/akshit/Downloads/practice.pem
+sonar ansible_user=ubuntu ansible_host=43.205.18.157 ansible_ssh_private_key_file=/home/akshit/Downloads/practice.pem
