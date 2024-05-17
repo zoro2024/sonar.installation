@@ -1,0 +1,4 @@
+  -Dsonar.projectKey=spring-framework-petclinic \
+  -Dsonar.projectName='spring-framework-petclinic' \
+  -Dsonar.host.url=http://54.90.53.226:9000 \
+  -Dsonar.token=sqp_35410a67d13be7b73fc85acc374e6b008b105fb6
